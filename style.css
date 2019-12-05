@@ -1,0 +1,21 @@
+.gameblock {
+	background-color: #e1e4e8;
+	width: 80%;
+	border-radius: 5px
+}
+
+.gamecontainer {
+	padding: 10px;
+}
+
+.nobr {
+	display: inline-block;
+}
+
+.playerButton {
+	margin: 3px;
+}
+
+#suggester, #revealer {
+	padding: 3px;
+}
