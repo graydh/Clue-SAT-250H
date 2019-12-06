@@ -124,7 +124,8 @@
 			let proof = document.getElementById("proof");
 			let query = `${person.value}/${place.value}/${thing.value}/${suggester}`
 			console.log(disprover);
-			if (disprover !== 0) {
+			console.log(typeof disprover);
+			if (disprover !== "0") {
 				query += `/${disprover}`
 			}
 			if (!(proof.value === '')) {
