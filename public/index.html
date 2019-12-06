@@ -64,6 +64,7 @@
 			para.setAttribute("value", "Me");
 			let node = document.createTextNode("Me");
 			para.appendChild(node);
+			element.appendChild(para);
 			for (let i=1; i<numPlayers; i++) {
 				let para = document.createElement("option");
 				let playername = i;
@@ -105,7 +106,7 @@
 				cards = []
 			}
 			var almostall = ["Mustard","Scarlet","Green","White","Peacock","Billiard Room", "Study", "Lounge", "Dining Room", "Ball Room", "Conservatory", "Library", "Kitchen","Rope", "Knife", "Wrench", "Candlestick", "Revolver"];
-			$.post('/', {name: "Me", others: players.slice(1), cards: cards}).done(function(data) {
+			$.post('/', {name: "Me", others: players.slice(1), cards: almostall}).done(function(data) {
 				console.log(data);
 			})
 			$("#gamestart").hide()
