@@ -28,7 +28,7 @@ var sol1 = solver.solve();
 
 //console.log(sol1.getTrueVars());
 
-
+//Mustard,Scarlet,Plum,Green,White,Peacock,Billiard Room,Study,Hall,Lounge,Dining Room,Ball Room,Conservatory,Library,Kitchen,Rope,Lead Pipe,Knife,Wrench,Candlestick,Revolver
 var opponents = ["Opponent1", "Opponent2", "Opponent3"] ;//input - clockwise
 var user = "Me";
 
@@ -44,10 +44,13 @@ class ClueSolver {
 		this.username = username; // "Me"
 		this.opponents = opponents; // ["Opponent1", "Opponent2", "Opponent3"]
 		this.hand = hand; //["Mustard","Plum","Rope","Study", "Wrench"]
-		this.locations = opponents.slice();
+		this.locations = this.opponents.slice();
 		this.locations.unshift(this.username);
 		this.locations.push("ACTUAL");
 		this.solver = new Logic.Solver();
+
+		console.log(this.opponents);
+		console.log(this.locations);
 		
 		//SET UP GAME RULE RESTRICTIONS FOR LOGIC SOLVER
 
@@ -122,7 +125,8 @@ class ClueSolver {
 		}
 
 		//Lastly - return the current state of the solver
-		var firstSolution = this.solver.solve()
+		var firstSolution = this.solver.solve();
+		console.log(firstSolution.getTrueVars());
 		if (firstSolution === null){
 			return  {
 						message:"ERROR: NO SOLUTIONS FOUND",

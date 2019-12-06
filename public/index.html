@@ -106,7 +106,7 @@
 				cards = []
 			}
 			var almostall = ["Mustard","Scarlet","Green","White","Peacock","Billiard Room", "Study", "Lounge", "Dining Room", "Ball Room", "Conservatory", "Library", "Kitchen","Rope", "Knife", "Wrench", "Candlestick", "Revolver"];
-			$.post('/', {name: "Me", others: players.slice(1), cards: almostall}).done(function(data) {
+			$.post('/', {name: "Me", others: players.slice(), cards: almostall}).done(function(data) {
 				console.log(data);
 			})
 			$("#gamestart").hide()
