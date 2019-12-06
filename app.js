@@ -148,6 +148,15 @@ class ClueSolver {
 				};		
 	}
 
+	// is_finished(solution_list) {
+	// 	let count = 0;
+	// 	for (let i=0; i<solution_list.length; i++) {
+	// 		if (solution_list[i].includes("ACTUAL")) {
+
+	// 		}
+	// 	}
+	// }
+
 	get_next_location_position(curr_position){
 		if((curr_position+1) === this.players.length){
 			return 0

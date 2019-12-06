@@ -46,6 +46,8 @@
 			<hr>
 			<button onclick="submitsuggestion()">Submit Suggestion Info</button>
 		</div>
+		<p>Status</p><br>
+		<div id=status></div>
 	</div>
 	<script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 	<script type="text/javascript">
@@ -106,7 +108,7 @@
 				cards = []
 			}
 			var almostall = ["Mustard","Scarlet","Green","White","Peacock","Billiard Room", "Study", "Lounge", "Dining Room", "Ball Room", "Conservatory", "Library", "Kitchen","Rope", "Knife", "Wrench", "Candlestick", "Revolver"]
-			$.post('/', {name: "Me", others: players.slice(), cards: almostall}).done(function(data) {
+			$.post('/', {name: "Me", others: players.slice(), cards: cards}).done(function(data) {
 				console.log(data);
 			})
 			$("#gamestart").hide()
@@ -139,7 +141,8 @@
 			thing.value = '';
 			proof.value = '';
 			$.get(query, function(data){
-				console.log(data);
+				console.log(data.message)
+				$("#status").html(data.message);
 			});
 		}
 	</script>
