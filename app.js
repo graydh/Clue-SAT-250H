@@ -126,13 +126,13 @@ class ClueSolver {
 
 		//Lastly - return the current state of the solver
 		var firstSolution = this.solver.solve();
-		console.log(firstSolution.getTrueVars());
 		if (firstSolution === null){
 			return  {
 						message:"ERROR: NO SOLUTIONS FOUND",
 						solution : null
 					};
 		}
+		console.log(firstSolution.getTrueVars());
 		var secondSolution = this.solver.solveAssuming(Logic.not(firstSolution.getFormula()));
 		if (secondSolution === null){
 			return  {
@@ -194,6 +194,8 @@ app.post('/', function(req, res) {
 // console.log(cluesol.suggestion("Mustard","Billiard Room","Rope", "1","Me"));
 
 app.listen(port, () => console.log(`app listening on port ${port}`))
+
+
 
 
 
