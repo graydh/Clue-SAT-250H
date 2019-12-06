@@ -50,9 +50,6 @@ class ClueSolver {
 		this.locations.push("ACTUAL");
 		this.solver = new Logic.Solver();
 
-		console.log(this.opponents);
-		console.log(this.locations);
-		
 		//SET UP GAME RULE RESTRICTIONS FOR LOGIC SOLVER
 
 		//Each card can be in exactly one place
