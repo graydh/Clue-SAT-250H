@@ -46,6 +46,7 @@ class ClueSolver {
 		this.hand = hand; //["Mustard","Plum","Rope","Study", "Wrench"]
 		this.locations = this.opponents.slice();
 		this.locations.unshift(this.username);
+		this.players = this.locations.slice();
 		this.locations.push("ACTUAL");
 		this.solver = new Logic.Solver();
 
@@ -107,15 +108,15 @@ class ClueSolver {
 			//Someone else makes a suggestion that is disproved - disprover == somePlayer & proof == null
 			//User makes a suggestion that goes undisproven - disprover == null & proof == null
 			//User makes a suggestion that is disproven - disprover == somePlayer & proof == someCard
-		var curr_index = this.locations.indexOf(suggestor);
+		var curr_index = this.players.indexOf(suggestor);
 		if (disprover === null){
 			disprover = suggestor; //this is the case where no one can disprove
 		}
-		var end_index = this.locations.indexOf(disprover);
+		var end_index = this.players.indexOf(disprover);
 		//Everyone who didn't disprove doesn't have any of the suggestion cards
 		while(this.get_next_location_position(curr_index) != end_index){
 			curr_index = this.get_next_location_position(curr_index);
-			var curr_person = this.locations[curr_index];
+			var curr_person = this.players[curr_index];
 			this.solver.require(Logic.and("-".concat(person, "_", curr_person), "-".concat(place, "_", curr_person) , "-".concat(thing, "_", curr_person)));
 		}
 
@@ -148,7 +149,7 @@ class ClueSolver {
 	}
 
 	get_next_location_position(curr_position){
-		if((curr_position+1) === this.locations.length){
+		if((curr_position+1) === this.players.length){
 			return 0
 		}
 		else{
