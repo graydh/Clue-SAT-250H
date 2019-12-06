@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Clue SAT Solver &#128269;</title>
+	<link rel="stylesheet" type="text/css" href="/style.css">
+</head>
+<body>
+	<h1>Clue SAT Solver &#128269;</h1><br>
+	<div id="gamestart" class="gameblock">
+		<div class="gamecontainer">
+			<h2>&#x2699; Settings</h2>
+			<span>How many players?&nbsp</span><input id="start" type="number" value="3" min="2" max="6"/>
+			<p>Input your cards as a comma-separated list</p>
+			<textarea name="Cards" cols="40" rows="5" id="cardinput"></textarea><br>
+			<button onclick="setupgame()">Start Game</button>
+		</div>
+	</div>
+	<div id="gamesection" class="gameblock">
+		<div class="gamecontainer">
+		<h2>Suggestion Input</h2>
+			<hr>
+			<h4>Guess</h4>
+			<p>Who guessed?</p>
+			<select id="suggester"></select><br><br>
+			<div>
+				<span class="nobr">
+				<div>Person</div>
+				<input type="text" name="person" id="person" placeholder="e.g. Mustard">
+				</span>
+				<span class="nobr">
+				<div>Place</div>
+				<input type="text" name="place" id="place" placeholder="e.g. Dining Room">
+				</span>
+				<span class="nobr">
+				<div>Thing</div>
+				<input type="text" name="thing" id="thing" placeholder="e.g. Rope">
+				</span>
+			</div>
+			<hr>
+			<h4>Revealer</h4>
+			<p>Who revealed?</p>
+			<select id="revealer"></select><br><br>
+			<div>
+				<span>Card Revealed (if known)&nbsp</span><input type="text" name="proof"id="proof" placeholder="card" />
+			</div>
+			<hr>
+			<button onclick="submitsuggestion()">Submit Suggestion Info</button>
+		</div>
+	</div>
+	<script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$("#gamesection").hide()
+		});
+
+		function setupgame() {
+			let numPlayers = document.getElementById("start").value;
+			let players = []
+			let element = document.getElementById("suggester");
+			while (element.firstChild) {
+    			element.removeChild(element.firstChild);
+  			}
+  			let para = document.createElement("option");
+			para.setAttribute("value", "Me");
+			let node = document.createTextNode("Me");
+			para.appendChild(node);
+			for (let i=1; i<numPlayers; i++) {
+				let para = document.createElement("option");
+				let playername = i;
+				para.setAttribute("value", playername);
+				let node = document.createTextNode("Player " + i);
+				para.appendChild(node);
+				element.appendChild(para);
+				players.push(i + "");
+			}
+
+			element = document.getElementById("revealer");
+			while (element.firstChild) {
+    			element.removeChild(element.firstChild);
+  			}
+  			para = document.createElement("option");
+			para.setAttribute("value", 0);
+			node = document.createTextNode("None");
+			para.appendChild(node);
+			element.appendChild(para);
+			para = document.createElement("option");
+			para.setAttribute("value", "Me");
+			node = document.createTextNode("Me");
+			para.appendChild(node);
+			element.appendChild(para);
+			for (let i=1; i<numPlayers; i++) {
+				let para = document.createElement("option");
+				let playername = i;
+				para.setAttribute("value", playername);
+				let node = document.createTextNode("Player " + i);
+				para.appendChild(node);
+				element.appendChild(para);
+			}
+
+			let cardinput = document.getElementById("cardinput");
+			let cardstring = cardinput.value;
+			cardinput.value = "";
+			let cards = cardstring.split(",").map((x) => x.trim());
+			if (cards.length === 1 && cards[0] === "") {
+				cards = []
+			}
+			var almostall = ["Mustard","Scarlet","Green","White","Peacock","Billiard Room", "Study", "Lounge", "Dining Room", "Ball Room", "Conservatory", "Library", "Kitchen","Rope", "Knife", "Wrench", "Candlestick", "Revolver"];
+			$.post('/', {name: "Me", others: players.slice(1), cards: cards}).done(function(data) {
+				console.log(data);
+			})
+			$("#gamestart").hide()
+			$("#gamesection").show()
+		}
+
+
+
+		function submitsuggestion() {
+			let person = document.getElementById("person");
+			let place = document.getElementById("place");
+			let thing = document.getElementById("thing");
+			let suggester = document.getElementById("suggester").value;
+			let disprover = document.getElementById("revealer").value;
+			let proof = document.getElementById("proof");
+			let query = `${person.value}/${place.value}/${thing.value}/${suggester}`
+			if (!(disprover === 'None')) {
+				query += `/${disprover}`
+			}
+			if (!(proof === '')) {
+				query += `/${proof}`
+			}
+			$("#suggester").prop('selectedIndex', 0);
+			$("#revealer").prop('selectedIndex', 0);
+			person.value = '';
+			place.value = '';
+			thing.value = '';
+			proof.value = '';
+			$.get(query, function(data){
+				console.log(data);
+			});
+		}
+	</script>
+</body>
+</html>
