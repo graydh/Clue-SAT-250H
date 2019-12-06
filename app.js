@@ -1,6 +1,17 @@
 
 //Load Logic-Solver for SAT Checking
 var Logic = require('logic-solver');
+var express = require('express');
+var bodyParser = require('body-parser')
+
+const app = express();
+const port = 3000;
+
+
+app.use(express.static('public'));
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded());
 
 
 var person = ["Mustard","Scarlet","Plum","Green","White","Peacock"]
@@ -142,16 +153,43 @@ class ClueSolver {
 	}
 }
 
+let cluesol;
+
 
 //var cluesol = new ClueSolver("Me",["Opponent1", "Opponent2", "Opponent3"], ["Mustard", "Hall", "Revolver", "Kitchen"]);
 //console.log(cluesol.suggestion("Mustard", "Hall","Knife", "Opponent1","Opponent2"));
+app.get('/:person/:place/:thing/:suggestor/:disprover?/:proof?', function (req, res) {
+	let result;
+	if (req.params.disprover && !req.params.proof) {
+		result = cluesol.suggestion(req.params.person, req.params.place, req.params.thing, req.params.suggestor, req.params.disprover);
+	}
+	else if (req.params.disprover && req.params.proof) {
+		result = cluesol.suggestion(req.params.person, req.params.place, req.params.thing, req.params.suggestor, req.params.disprover, req.params.proof);
+	}
+	else {
+		result = cluesol.suggestion(req.params.person, req.params.place, req.params.thing, req.params.suggestor)
+	}
+	console.log(result);
+	res.send(result);
+})
 
 
+app.post('/', function(req, res) {
+	let username = req.body.name;
+	let others = req.body.others;
+	let cards = req.body.cards;
+	cluesol = new ClueSolver(username, others, cards);
 
-var almostall = ["Mustard","Scarlet","Green","White","Peacock","Billiard Room", "Study", "Lounge", "Dining Room", "Ball Room", "Conservatory", "Library", "Kitchen","Rope", "Knife", "Wrench", "Candlestick", "Revolver"];
-var solution = ["Hall","Plum","Lead Pipe"];
-var cluesol = new ClueSolver("Me", ["1","2"], almostall);
-console.log(cluesol.suggestion("Mustard","Billiard Room","Rope", "1","Me"));
+	res.send(req.body);
+})
+
+
+// var almostall = ["Mustard","Scarlet","Green","White","Peacock","Billiard Room", "Study", "Lounge", "Dining Room", "Ball Room", "Conservatory", "Library", "Kitchen","Rope", "Knife", "Wrench", "Candlestick", "Revolver"];
+// var solution = ["Hall","Plum","Lead Pipe"];
+
+// console.log(cluesol.suggestion("Mustard","Billiard Room","Rope", "1","Me"));
+
+app.listen(port, () => console.log(`app listening on port ${port}`))
 
 
 
