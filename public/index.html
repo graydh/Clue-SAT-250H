@@ -106,7 +106,7 @@
 				cards = []
 			}
 			var almostall = ["Mustard","Scarlet","Green","White","Peacock","Billiard Room", "Study", "Lounge", "Dining Room", "Ball Room", "Conservatory", "Library", "Kitchen","Rope", "Knife", "Wrench", "Candlestick", "Revolver"]
-			$.post('/', {name: "Me", others: players.slice(), cards: cards}).done(function(data) {
+			$.post('/', {name: "Me", others: players.slice(), cards: almostall}).done(function(data) {
 				console.log(data);
 			})
 			$("#gamestart").hide()
@@ -123,7 +123,8 @@
 			let disprover = document.getElementById("revealer").value;
 			let proof = document.getElementById("proof");
 			let query = `${person.value}/${place.value}/${thing.value}/${suggester}`
-			if (disprover === 0) {
+			console.log(disprover);
+			if (disprover !== 0) {
 				query += `/${disprover}`
 			}
 			if (!(proof.value === '')) {
