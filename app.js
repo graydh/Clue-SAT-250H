@@ -131,8 +131,23 @@ class ClueSolver {
 					};
 		}
 		console.log(firstSolution.getTrueVars());
-		var secondSolution = this.solver.solveAssuming(Logic.not(firstSolution.getFormula()));
-		if (secondSolution === null){
+
+		//This gets the 3 predicted actual values, and see's if its possible for it not to be one of them at a time
+		var x = 0;
+		var solutions = firstSolution.getTrueVars();
+		var actuals = [];
+		while(x < solutions.length){
+			if (solutions[x].slice(-6,) == "ACTUAL"){
+				actuals.push("-"+solutions[x]);
+			}
+			x = x+1;
+		}
+		console.log(actuals);
+		var solution_a = this.solver.solveAssuming(actuals[0]);
+		var solution_b = this.solver.solveAssuming(actuals[1]);
+		var solution_c = this.solver.solveAssuming(actuals[2]);
+
+		if ((solution_a === null) & (solution_b === null) & (solution_c === null)){
 			return  {
 						message : "Game Solved", 
 						solution : firstSolution.getTrueVars() //This is the GAME solution
